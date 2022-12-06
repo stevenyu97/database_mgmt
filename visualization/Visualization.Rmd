@@ -1,0 +1,29 @@
+---
+title: "Final"
+output: html_document
+date: "`r Sys.Date()`"
+---
+
+```{r}
+library(nlme)
+data<-read.csv("final.csv")
+head(data)
+CO2_2015<-data$CO2_emission[data$Year==2015]
+pop_2015<-data$Population[data$Year==2015]
+cName<-data$Country[data$Year==2015]
+labls_CO2<-cName
+labls_CO2[CO2_2015<sort(CO2_2015,TRUE)[10]]<-''
+pie(CO2_2015,labls_CO2,main="CO2 Emission Pie",col=rainbow(length(cName)))
+```
+```{r}
+par(mfrow=c(2,5))
+for(c in labls_CO2[labls_CO2!='']){
+  
+  plot(data$Year[data$Country==c],data$CO2_emission[data$Country==c],
+       xlab='Year',ylab='CO2',main=c,type='l')
+}
+```
+
+```{r}
+cor(cbind(data$Year,data$CO2_emission,data$Population,data$avgT,data$energy_consumption))
+```
